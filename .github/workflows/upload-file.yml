@@ -5,6 +5,12 @@ on:
     branches:
       - master # 监听主分支上的 push 操作
 
+# 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages。
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
