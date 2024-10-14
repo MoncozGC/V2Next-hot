@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "node main.js"
+    "run": "vite",
+    "build": "vite build",
+    "build2": "node gen.js"
   },
   "devDependencies": {
     "vite": "^5.4.8"
