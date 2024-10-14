@@ -21,11 +21,11 @@ jobs:
         uses: actions/checkout@v3
 
         # 2. 拉取最新的代码
-      - name: Pull latest changes from generated-files-branch
+      - name: Pull latest changes from hot
         run: |
           git fetch origin
-          git checkout generated-files-branch
-          git pull origin generated-files-branch
+          git checkout hot
+          git pull origin hot
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -61,4 +61,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN
         run: |
-          git push origin HEAD:generated-files-branch
+          git push origin HEAD:hot
