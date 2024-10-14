@@ -5,6 +5,9 @@ on:
     branches:
       - master # 监听主分支上的 push 操作
 
+  schedule:
+    - cron: '*/5 * * * *'
+
 # 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages。
 permissions:
   contents: write
