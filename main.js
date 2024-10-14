@@ -55,10 +55,11 @@ async function run() {
   const year = now.getFullYear(); // 获取当前年份
   const month = now.getMonth() + 1; // 获取当前月份，注意月份从 0 开始，因此需要 +1
   const day = now.getDate(); // 获取当前日期
-  const m = now.getMilliseconds(); // 获取当前日期
+  const h = now.getHours(); // 获取当前日期
+  const m = now.getMinutes(); // 获取当前日期
 
   fs.writeFileSync(
-    pathName + `/${year}-${month}-${day}-${m}.json`,
+    pathName + `/${year}-${month}-${day}-${h}-${m}.json`,
     JSON.stringify(list, null, 2)
   );
 
