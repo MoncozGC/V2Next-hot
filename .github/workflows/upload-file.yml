@@ -43,4 +43,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN
         run: |
-          git push origin HEAD:generated-files-branch
+          git push -f origin HEAD:generated-files-branch
