@@ -3,7 +3,7 @@ name: Upload Generated Files to Repository
 on:
   push:
     branches:
-      - main # 监听主分支上的 push 操作
+      - master # 监听主分支上的 push 操作
 
 jobs:
   build:
