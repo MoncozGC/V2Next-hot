@@ -44,7 +44,7 @@ async function run() {
   // })
 
 
-  let pathName = "./dist";
+  let pathName = "./dist2";
   if (!fs.existsSync(pathName)) {
     fs.mkdirSync(pathName)
   }

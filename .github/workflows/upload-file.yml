@@ -20,11 +20,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 运行脚本或命令，生成你想上传的文件
-      - name: Run script to generate files
-        run: |
-          echo "This is a generated file." > generated-file.txt
-          echo "Another generated file." > another-file.txt
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
 
       # 配置 Git 信息
       - name: Configure Git
@@ -35,7 +46,7 @@ jobs:
       # 添加生成的文件到 Git
       - name: Add and commit files
         run: |
-          git add generated-file.txt another-file.txt
+          git add dist2/*
           git commit -m "Add generated files from GitHub Actions"
 
       # 推送更改到仓库
