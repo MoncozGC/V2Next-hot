@@ -6,7 +6,7 @@
   "scripts": {
     "run": "vite",
     "build": "vite build",
-    "build2": "node gen.js"
+    "gen": "node gen.js"
   },
   "devDependencies": {
     "vite": "^5.4.8"
