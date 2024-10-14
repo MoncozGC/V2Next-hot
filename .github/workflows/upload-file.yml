@@ -53,7 +53,7 @@ jobs:
       # 添加生成的文件到 Git
       - name: Add and commit files
         run: |
-          git add build/*
+          git add public/*
           git commit -m "Add generated files from GitHub Actions"
 
       # 推送更改到仓库

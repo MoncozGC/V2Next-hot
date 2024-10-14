@@ -44,10 +44,15 @@ async function run() {
   })
 
 
-  let pathName = "./public/";
+  let pathName = "./public/hot/";
   if (!fs.existsSync(pathName)) {
     fs.mkdirSync(pathName)
   }
+
+  // let pathName = "./public/hot/";
+  // if (!fs.existsSync(pathName)) {
+  //   fs.mkdirSync(pathName)
+  // }
 
 
   const now = new Date();
