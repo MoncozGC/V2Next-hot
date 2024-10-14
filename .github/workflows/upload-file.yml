@@ -20,6 +20,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+        # 2. 拉取最新的代码
+      - name: Pull latest changes from generated-files-branch
+        run: |
+          git fetch origin
+          git checkout generated-files-branch
+          git pull origin generated-files-branch
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
@@ -46,7 +53,7 @@ jobs:
       # 添加生成的文件到 Git
       - name: Add and commit files
         run: |
-          git add dist2/*
+          git add build/*
           git commit -m "Add generated files from GitHub Actions"
 
       # 推送更改到仓库
@@ -54,4 +61,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN
         run: |
-          git push -f origin HEAD:generated-files-branch
+          git push origin HEAD:generated-files-branch

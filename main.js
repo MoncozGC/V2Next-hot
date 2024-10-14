@@ -44,7 +44,7 @@ async function run() {
   // })
 
 
-  let pathName = "./dist2";
+  let pathName = "./build";
   if (!fs.existsSync(pathName)) {
     fs.mkdirSync(pathName)
   }
@@ -54,11 +54,10 @@ async function run() {
   const year = now.getFullYear(); // 获取当前年份
   const month = now.getMonth() + 1; // 获取当前月份，注意月份从 0 开始，因此需要 +1
   const day = now.getDate(); // 获取当前日期
-
-  console.log(`当前日期是：${year}年${month}月${day}日`);
+  const m = now.getMilliseconds(); // 获取当前日期
 
   fs.writeFileSync(
-    pathName + `/${year}-${month}-${day}.json`,
+    pathName + `/${year}-${month}-${day}-${m}.json`,
     JSON.stringify([12, 34], null, 2)
   );
   // console.log(list)
