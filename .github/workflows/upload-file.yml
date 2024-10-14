@@ -1,0 +1,40 @@
+name: Upload Generated Files to Repository
+
+on:
+  push:
+    branches:
+      - main # 监听主分支上的 push 操作
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出仓库代码
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 运行脚本或命令，生成你想上传的文件
+      - name: Run script to generate files
+        run: |
+          echo "This is a generated file." > generated-file.txt
+          echo "Another generated file." > another-file.txt
+
+      # 配置 Git 信息
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # 添加生成的文件到 Git
+      - name: Add and commit files
+        run: |
+          git add generated-file.txt another-file.txt
+          git commit -m "Add generated files from GitHub Actions"
+
+      # 推送更改到仓库
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN
+        run: |
+          git push origin HEAD:generated-files-branch
