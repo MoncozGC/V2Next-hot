@@ -44,7 +44,7 @@ async function run() {
   })
 
 
-  let pathName = "./public/hot";
+  let pathName = "./public/";
   if (!fs.existsSync(pathName)) {
     fs.mkdirSync(pathName)
   }
