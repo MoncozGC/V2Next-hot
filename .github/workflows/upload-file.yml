@@ -6,7 +6,10 @@ on:
       - master # 监听主分支上的 push 操作
 
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/30 * * * *'
+#     - cron: '0 22 * * *'  # 每天的 22 点执行
+#     - cron: '0 23 * * *'  # 每天的 23 点执行
+#     - cron: '50 23 * * *'  # 每天的 23 点 50 分执行
 
 # 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages。
 permissions:
