@@ -2,6 +2,7 @@ import fetch from 'node-fetch'
 import * as cheerio from 'cheerio';
 import path from 'path'
 import fs from 'fs'
+import {createLogger} from "vite";
 
 async function run() {
   let res = await fetch('https://www.v2ex.com/?tab=hot')
@@ -32,7 +33,8 @@ async function run() {
 
     let date = topicInfo.find('span');
     if (date.length) {
-      item.lastReplyDate = date.text().replace(' +08:00', '');
+      item.lastReplyDateAgo = date.text().replace(' +08:00', '');
+      item.lastReplyDate = date.attr('title').replace(' +08:00', '');
     }
 
     let nodeEl = topicInfo.find('.node');
@@ -40,9 +42,13 @@ async function run() {
       item.nodeTitle = nodeEl.text();
       item.nodeUrl = nodeEl.attr('href').replace('/go/', '');
     }
+    item.isTop = false
+    let css = $(this).css()
+    if(Object.keys(css).length) {
+      item.isTop = true
+    }
     list.push(item)
   })
-
 
   let pathName2 = "./public/";
   if (!fs.existsSync(pathName2)) {
@@ -54,9 +60,7 @@ async function run() {
     fs.mkdirSync(pathName)
   }
 
-
   const now = new Date();
-
   const year = now.getFullYear(); // 获取当前年份
   const month = now.getMonth() + 1; // 获取当前月份，注意月份从 0 开始，因此需要 +1
   const day = now.getDate(); // 获取当前日期
@@ -64,12 +68,19 @@ async function run() {
   const m = now.getMinutes(); // 获取当前日期
 
   fs.writeFileSync(
-    pathName + `/${year}-${month}-${day}-${h}-${m}.json`,
+    pathName + `/test-${year}-${month}-${day}-${h}-${m}.json`,
+    JSON.stringify(list, null, 2)
+  );
+
+  fs.writeFileSync(
+    pathName + `/${year}-${month}-${day}.json`,
     JSON.stringify(list, null, 2)
   );
 
   let files = fs.readdirSync(pathName);
-  files = files.filter(v => v !== 'map.json').map(file => {
+  files = files.filter(v => {
+    return v !== 'map.json' && !v.includes('test-');
+  }).map(file => {
     file = file.replace('.json', '')
     return file
   });
