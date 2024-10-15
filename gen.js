@@ -4,6 +4,38 @@ import path from 'path'
 import fs from 'fs'
 import {createLogger} from "vite";
 
+let pathName2 = "./public/";
+if (!fs.existsSync(pathName2)) {
+  fs.mkdirSync(pathName2)
+}
+
+let pathName = "./public/hot/";
+if (!fs.existsSync(pathName)) {
+  fs.mkdirSync(pathName)
+}
+
+function getNDayList(files, n) {
+  let list = []
+  files.slice(0, n).map(i => {
+    let l = fs.readFileSync(pathName + '/' + i + '.json')
+    if (l) l = JSON.parse(l)
+    l.map(v => {
+      if (!list.find(a => a.id == v.id)) {
+        list.push(v)
+      }
+    })
+  })
+
+  list.sort((a, b) => {
+    return b.replyCount - a.replyCount
+  })
+  // console.log('files', files)
+  fs.writeFileSync(
+    pathName + `/${n}d.json`,
+    JSON.stringify(list, null, 2)
+  );
+}
+
 async function run() {
   let res = await fetch('https://www.v2ex.com/?tab=hot')
   let text = await res.text()
@@ -44,21 +76,11 @@ async function run() {
     }
     item.isTop = false
     let css = $(this).css()
-    if(Object.keys(css).length) {
+    if (Object.keys(css).length) {
       item.isTop = true
     }
     list.push(item)
   })
-
-  let pathName2 = "./public/";
-  if (!fs.existsSync(pathName2)) {
-    fs.mkdirSync(pathName2)
-  }
-
-  let pathName = "./public/hot/";
-  if (!fs.existsSync(pathName)) {
-    fs.mkdirSync(pathName)
-  }
 
   const now = new Date();
   const year = now.getFullYear(); // 获取当前年份
@@ -79,18 +101,28 @@ async function run() {
 
   let files = fs.readdirSync(pathName);
   files = files.filter(v => {
-    return v !== 'map.json' && !v.includes('test-');
+    return !['map.json', '3d.json', '7d.json', '30d.json'].includes(v) && !v.includes('test-');
   }).map(file => {
     file = file.replace('.json', '')
     return file
   });
 
-  console.log('files', files)
+  files.sort((a, b) => {
+    let d1 = new Date(a)
+    let d2 = new Date(b)
+    return d1.valueOf() > d2.valueOf() ? -1 : 1;
+  })
+
+  getNDayList(files, 3);
+  getNDayList(files, 7);
+  getNDayList(files, 30);
+
   fs.writeFileSync(
     pathName + `/map.json`,
     JSON.stringify(files, null, 2)
   );
   // console.log(list)
 }
+
 
 run()
