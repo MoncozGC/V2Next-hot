@@ -32,7 +32,7 @@ function getNDayList(files, n) {
   // console.log('files', files)
   fs.writeFileSync(
     pathName + `/${n}d.json`,
-    JSON.stringify(list, null, 2)
+    JSON.stringify(list)
   );
 }
 
@@ -91,12 +91,12 @@ async function run() {
 
   fs.writeFileSync(
     pathName + `/test-${year}-${month}-${day}-${h}-${m}.json`,
-    JSON.stringify(list, null, 2)
+    JSON.stringify(list)
   );
 
   fs.writeFileSync(
     pathName + `/${year}-${month}-${day}.json`,
-    JSON.stringify(list, null, 2)
+    JSON.stringify(list)
   );
 
   let files = fs.readdirSync(pathName);
@@ -119,7 +119,8 @@ async function run() {
 
   fs.writeFileSync(
     pathName + `/map.json`,
-    JSON.stringify(files, null, 2)
+    JSON.stringify(files)
+    // JSON.stringify(files, null, 2)
   );
   // console.log(list)
 }
