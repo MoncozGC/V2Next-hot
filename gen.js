@@ -17,13 +17,17 @@ if (!fs.existsSync(pathName)) {
 function getNDayList(files, n) {
   let list = []
   files.slice(0, n).map(i => {
-    let l = fs.readFileSync(pathName + '/' + i + '.json')
-    if (l) l = JSON.parse(l)
-    l.map(v => {
-      if (!list.find(a => a.id == v.id)) {
-        list.push(v)
-      }
-    })
+    try {
+      let l = fs.readFileSync(pathName + '/' + i + '.json')
+      if (l) l = JSON.parse(l)
+      l.map(v => {
+        if (!list.find(a => a.id == v.id)) {
+          list.push(v)
+        }
+      })
+    } catch (e) {
+      console.error('error', e)
+    }
   })
 
   list.sort((a, b) => {
@@ -101,7 +105,7 @@ async function run() {
 
   let files = fs.readdirSync(pathName);
   files = files.filter(v => {
-    return !['map.json', '3d.json', '7d.json', '30d.json'].includes(v) && !v.includes('test-');
+    return !['map.json', '3d.json', '7d.json', '30d.json', 'new.txt'].includes(v) && !v.includes('test-');
   }).map(file => {
     file = file.replace('.json', '')
     return file
