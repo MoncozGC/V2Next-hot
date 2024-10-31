@@ -33,6 +33,16 @@ function getNDayList(files, n) {
   list.sort((a, b) => {
     return b.replyCount - a.replyCount
   })
+  if (n === 30) {
+    list = list.filter(v => {
+      return v.replyCount > 100
+    })
+  }
+  if (n === 7) {
+    list = list.filter(v => {
+      return v.replyCount > 50
+    })
+  }
   // console.log('files', files)
   fs.writeFileSync(
     pathName + `/${n}d.json`,
